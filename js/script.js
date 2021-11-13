@@ -7,8 +7,9 @@ $("document").ready(function() {
 		let currentLong = position.coords.longitude;
 		//console.log(currentLat + " " + currentLong);
 
+		//test
 		$.ajax({
-			url: "php/getCountryInfo.php",
+			url: "php/getCountryInfo.php", 
 			type: 'POST',
 			dataType: 'json',
 			data: {
