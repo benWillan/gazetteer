@@ -1,0 +1,25 @@
+Plan
+====
+
+1. Create an array of all the country names in countryBorders.geo.json.			(DONE)
+2. Create an <input> and and <datalist> which display all the countries.		(DONE)
+3. Retrieve gps location of device.												(DONE)
+4. Get device lat/lgn co-ords.													(DONE)
+5. 
+
+x. Prevent the drop-down box from appearing until after something is typed in.	(NOT DONE)
+x. Change the direction of the drop-down box.									(NOT DONE)
+x. Change the number of options displayed in the drop-down box.					(NOT DONE)
+
+Program Flow
+============
+
+- App starts and loads position using navigator.
+- Country is returned based on long/lat.
+- Country border(s) co-ordinates are.
+
+Questions
+=========
+
+- Where did the countryBorders.geo.json data come from?
+- Why does index.html defaul as the file be run.
