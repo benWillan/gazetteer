@@ -1,8 +1,5 @@
 #countryEntry {
-	position: relative;
-	
-	left: 200px;
-	top: 200px;
+	position: static;
 }
 label {
 	font-family: 'Courier New', Courier, monospace;

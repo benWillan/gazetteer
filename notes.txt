@@ -3,9 +3,9 @@ Plan
 
 1. Create an array of all the country names in countryBorders.geo.json.			(DONE)
 2. Create an <input> and and <datalist> which display all the countries.		(DONE)
-3. Retrieve gps location of device.												(DONE)
-4. Get device lat/lgn co-ords.													(DONE)
-5. 
+3. Get country ISO code device is in.											(DONE)
+4. Use ISO code to get border lat/lng co-ords from JSON file					(NOT DONE)
+
 
 x. Prevent the drop-down box from appearing until after something is typed in.	(NOT DONE)
 x. Change the direction of the drop-down box.									(NOT DONE)
@@ -14,12 +14,16 @@ x. Change the number of options displayed in the drop-down box.					(NOT DONE)
 Program Flow
 ============
 
-- App starts and loads position using navigator.
-- Country is returned based on long/lat.
-- Country border(s) co-ordinates are.
+- App starts and script runs Navigator.
+- Navigator gets lng/lat co-ords.
+- AJAX request sent to getCountryInfo.php to get country ISO2 based on lng/lat.
+- getCountryInfo makes a cURL request to geonames API that returns the JSON object for the long/lat co-ords.
+- Another AJAX request is then chained inside the first which requests the countryBorders arrays from the country with the same ISO2 code.
+
 
 Questions
 =========
 
 - Where did the countryBorders.geo.json data come from?
 - Why does index.html defaul as the file be run.
+- Why does a php file still output when the header() is not included/ commented out?

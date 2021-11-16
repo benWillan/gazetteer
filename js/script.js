@@ -1,13 +1,11 @@
 $("document").ready(function() {
 
-	//retrieve lat/lng co-ords of user
+	//retrieve lat/lng co-ords of user.
 	const successCB = (position) => {
 
 		let currentLat = position.coords.latitude;
 		let currentLong = position.coords.longitude;
-		//console.log(currentLat + " " + currentLong);
 
-		//test
 		$.ajax({
 			url: "php/getCountryInfo.php", 
 			type: 'POST',
@@ -17,8 +15,23 @@ $("document").ready(function() {
 				lng: currentLong
 			},
 			success: function(result) {
-				console.log(JSON.stringify(result));
-				console.log(currentLat + " " + currentLong);
+				//console.log(JSON.stringify(result['data']['countryCode']));
+				
+				$.ajax({
+					url: "php/getBorderCoords.php", 
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						ISO2: result['data']['countryCode']
+					},
+					success: function(arr) {
+						console.log(JSON.stringify(arr));
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						// your error code
+					}
+				});
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				// your error code
@@ -30,12 +43,12 @@ $("document").ready(function() {
 		console.log(error);
 	};
 	
+	//first method in script that is run.
 	navigator.geolocation.getCurrentPosition(successCB, errorCB);
 	
-	/*
 	//read geo.json file and add coutries to <datalist>.
 	$.ajax({
-		url: "php/decodeJSON.php",
+		url: "php/getDatalistCountries.php",
 		type: 'GET',
 		dataType: 'json',
 		success: function(result) {
@@ -48,16 +61,17 @@ $("document").ready(function() {
 			// your error code
 		}
 	});
-	*/
+	
 
 	//draw map onto <div> element.
+	/*
 	var mymap = L.map('map').setView([51.505, -0.09], 13);
 	
 	var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
 		maxZoom: 17,
 		attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 	}).addTo(mymap);
-	
+	*/
 
 	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
 	
@@ -141,6 +155,7 @@ $("document").ready(function() {
 	]).addTo(mymap);
 	*/
 	
+	/*
 	var wapping = L.polygon([
 		[54.55460317648385,-5.661948614921897],
 		[53.86756500916334,-6.197884894220977],
@@ -151,12 +166,13 @@ $("document").ready(function() {
 		[55.1728600124238,-6.733847011736145],
 		[54.55460317648385,-5.661948614921897]
 	]).addTo(mymap);
-	
+	*/
 
 	// zoom the map to the polygon
 	//map.fitBounds(polygon.getBounds());
+	/*
 	map.fitBounds(wapping.getBounds());
-		
+	*/	
 		
 		
 });
