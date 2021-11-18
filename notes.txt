@@ -28,3 +28,12 @@ Questions
 - Where did the countryBorders.geo.json data come from?
 - Why does index.html default as the file be run.
 - Why does a php file still output when the header() is not included/ commented out?
+
+geo.json
+========
+
+//countryJSON['geometry']['coordinates'] 				- the total nested arrays [ [ [...]]].
+//countryJSON['geometry']['coordinates'][0] 			- the array containing the array of first set of arrays of lat/lng array pairs.
+//countryJSON['geometry']['coordinates'][0][0] 			- the first of the nested arrays. containing the first set of array lat/lng pairs.
+//countryJSON['geometry']['coordinates'][0][0][0] 		- the first array of lat/lng pairs.
+//countryJSON['geometry']['coordinates'][0][0][0][0] 	- the first lat/lng value in the array.

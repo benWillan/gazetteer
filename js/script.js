@@ -2,7 +2,7 @@ $("document").ready(function() {
 
 	//draw map onto <div> element.
 	
-	var mymap = L.map('map').setView([51.505, -0.09], 4);
+	var mymap = L.map('map').setView([51.505, -0.09], 2);
 	
 	var OpenTopoMap = L.tileLayer(
 		'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
@@ -14,27 +14,6 @@ $("document").ready(function() {
 	
 	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
 	
-	let wapping = [
-		[
-			[
-				[
-					[51.509, -0.08],
-					[51.503, -0.06],
-					[51.51, -0.047]
-				]
-			],
-			[
-				[
-					[51.505, -0.08],
-					[51.497, -0.06],
-					[51.504, -0.047]
-				]
-			]
-		]
-	];
-	
-	
-	var polygon = L.polygon(wapping, {color: 'purple'}).addTo(mymap);
 	
 	/*
 	// create a red polygon from an array of LatLng points
@@ -49,16 +28,13 @@ $("document").ready(function() {
 	//Re-order function
 	function reorderArray(arrToSort) {
 		let numOfPolygonArrays = arrToSort.length;
-		//let reOrderedArr = Array.from(Array(numOfPolygonArrays), () => Array());
 		
 		for(let i = 0; i < numOfPolygonArrays; i++) {
-			for(let j = 0; j < arrToSort[1][0].length; j++) {
-				//console.log(arrToSort[i][0][j].reverse());
-				reOrderedArr[i].push([arrToSort[i][0][j].reverse()]);
+			for(let j = 0; j < arrToSort[i][0].length; j++) {
+				arrToSort[i][0][j].reverse();
 			}
 		}
-		//console.log(reOrderedArr);
-		return reOrderedArr;
+		return arrToSort;
 	}
 
 	//retrieve lat/lng co-ords of user.
@@ -86,21 +62,8 @@ $("document").ready(function() {
 						ISO2: result['data']['countryCode']
 					},
 					success: function(countryJSON) {
-												
-						//countryJSON['geometry']['coordinates'] 				- the total nested arrays [ [ [...]]].
-						//countryJSON['geometry']['coordinates'][0] 			- the array containing the array of first set of arrays of lat/lng array pairs.
-						//countryJSON['geometry']['coordinates'][0][0] 			- the first of the nested arrays. containing the first set of array lat/lng pairs.
-						//countryJSON['geometry']['coordinates'][0][0][0] 		- the first array of lat/lng pairs.
-						//countryJSON['geometry']['coordinates'][0][0][0][0] 	- the first lat/lng value in the array.
-
-						console.log("Right");
-						console.log(JSON.stringify(countryJSON['geometry']['coordinates']));
-						//console.log(numOfArrays.length);	//2
-
 						let reversedCoordsArr = reorderArray(countryJSON['geometry']['coordinates']);
 						
-						console.log("Wrong");
-						console.log(JSON.stringify(reversedCoordsArr));
 						let polygon = L.polygon(reversedCoordsArr, {color: 'purple'}).addTo(mymap);
 						//let polygon = L.polygon(countryJSON['geometry']['coordinates'][0][0], {color: 'purple'}).addTo(mymap);
 					},
