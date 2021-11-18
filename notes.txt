@@ -4,9 +4,9 @@ Plan
 1. Create an array of all the country names in countryBorders.geo.json.			(DONE)
 2. Create an <input> and and <datalist> which display all the countries.		(DONE)
 3. Get country ISO code device is in.											(DONE)
-4. Use ISO code to get border lat/lng co-ords from JSON file					(DONE)
-
-5. Determine how many polygon arrays are in the country JSON					(NOT DONE)
+4. Use ISO code to get border lat/lng co-ords from JSON file.					(DONE)
+6. Determine how many polygon arrays are in the country JSON.					(DONE)
+7. Loadcorrect polygon based on initial location on loading.					(DONE)
 
 x. Prevent the drop-down box from appearing until after something is typed in.	(NOT DONE)
 x. Change the direction of the drop-down box.									(NOT DONE)
