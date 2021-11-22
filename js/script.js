@@ -1,30 +1,31 @@
 $("document").ready(function() {
 
 	//draw map onto <div> element.
-	
-	var mymap = L.map('map').setView([51.505, -0.09], 4);
-	
-	var OpenTopoMap = L.tileLayer(
-		'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-		{
-			maxZoom: 17,
-			attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-		}
-	).addTo(mymap);
-	
-	//var marker = L.marker([51.5, -0.09]).addTo(mymap);
-		
-	/*
-	// create a red polygon from an array of LatLng points
-	var latlngs = [[37, -109.05],[41, -109.03],[41, -102.05],[37, -102.04]];
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	var myMap = L.map('map',{
+		//worldCopyJump: true
+	});
 
-	var polygon = L.polygon(latlngs, {color: 'red'}).addTo(map);
+	myMap.setView([51.505, -0.09], 1);
 
-	// zoom the map to the polygon
-	map.fitBounds(polygon.getBounds());
-	*/
+	var Stamen_Terrain = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		subdomains: 'abcd',
+		minZoom: 0,
+		maxZoom: 18,
+		ext: 'png'}
+	).addTo(myMap);
 
-	//Re-order functions
+	// var OpenTopoMap = L.tileLayer(
+	// 	'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+	// 	{
+	// 		maxZoom: 17,
+	// 		attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+	// 	}
+	// ).addTo(myMap);
+	
+	//Re-order functions	//NOTE: L.latLng method can be used instead.
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	function reorderMultiPolygonArray(arrToReorder) {
 		
 		let numOfPolygonArrays = arrToReorder.length;
@@ -44,11 +45,41 @@ $("document").ready(function() {
 		}
 		return arrToReorder;
 	};
+	
+	//Get Country Border function.
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	let currentCountry;
+	let newCountry;
 
-	//Onload locate device function.
+	function getCountryBorder(countryCode) {
+		$.ajax({
+			url: "php/getBorderCoords.php", 
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				ISO2: countryCode
+			},
+			success: function(countryJSON) {
 
-
-	//retrieve lat/lng co-ords of user.
+				if (countryJSON['geometry']['type'] == 'MultiPolygon') {
+					let reversedCoordsArr = reorderMultiPolygonArray(countryJSON['geometry']['coordinates']);
+					polygon = L.polygon(reversedCoordsArr, {color: 'purple'}).addTo(myMap);
+					myMap.fitBounds(polygon.getBounds());
+					
+				} else if (countryJSON['geometry']['type'] == 'Polygon') {
+					let reversedCoordsArr = reorderPolygonArray(countryJSON['geometry']['coordinates']);
+					let polygon = L.polygon(reversedCoordsArr, {color: 'purple'}).addTo(myMap);
+					myMap.fitBounds(polygon.getBounds());
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				// your error code
+			}
+		});
+	};
+	
+	//Initialise location on load.
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	const successCB = (position) => {
 
 		let currentLat = position.coords.latitude;
@@ -62,41 +93,12 @@ $("document").ready(function() {
 				lat: currentLat,
 				lng: currentLong
 			},
-			success: function(result) {
-				//console.log(JSON.stringify(result['data']['countryCode']));
-				function getCountryBorder(result) {
-					$.ajax({
-						url: "php/getBorderCoords.php", 
-						type: 'POST',
-						dataType: 'json',
-						data: {
-							//ISO2: "IN", //test
-							ISO2: result['data']['countryCode']
-						},
-						success: function(countryJSON) {
-							//console.log(countryJSON);
-							//console.log(JSON.stringify(countryJSON['geometry']['coordinates'].length));
-							//console.log(JSON.stringify(countryJSON['geometry']['type']));
-							
-							if (countryJSON['geometry']['type'] == 'MultiPolygon') {
-								let reversedCoordsArr = reorderMultiPolygonArray(countryJSON['geometry']['coordinates']);
-								let polygon = L.polygon(reversedCoordsArr, {color: 'purple'}).addTo(mymap);
-							} else if (countryJSON['geometry']['type'] == 'Polygon') {
-								let reversedCoordsArr = reorderPolygonArray(countryJSON['geometry']['coordinates']);
-								let polygon = L.polygon(reversedCoordsArr, {color: 'purple'}).addTo(mymap);
-							}
-							
-						},
-						error: function(jqXHR, textStatus, errorThrown) {
-							// your error code
-						}
-					});
-				};
-				getCountryBorder(result);
-				
+			success: function(data) {
+				//console.log(JSON.stringify(data['data']['countryCode']));
+				getCountryBorder(data['data']['countryCode']);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				// your error code
+				//error code
 			}
 		});
 	};
@@ -105,10 +107,14 @@ $("document").ready(function() {
 		console.log(error);
 	};
 
-	//initialise location on load.
-	navigator.geolocation.getCurrentPosition(successCB, errorCB);
+	function initialiseLocation() {
+		navigator.geolocation.getCurrentPosition(successCB, errorCB);
+	};
+
+	initialiseLocation();
 	
-	//read geo.json file and add coutries to <datalist>.
+	//Read geo.json file and add coutries to <datalist>.
+	/////////////////////////////////////////////////////////////////////////////////////////////
 	$.ajax({
 		url: "php/getDatalistCountries.php",
 		type: 'GET',
@@ -124,7 +130,65 @@ $("document").ready(function() {
 		}
 	});
 
-	
+	//Update location with input box selected country.
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	$('#countriesInput').change(function () {
+		let countryName = $('#countriesInput').val();
 		
+		$.ajax({
+			url: "php/getCountryCode.php",
+			type: 'GET',
+			dataType: 'json',
+			data: {
+				countryName
+			},
+			success: function(countryCodeJSON) {
+				//console.log(countryCodeJSON);
+				//var myMap = L.map('map').setView([51.505, -0.09], 1);
+				
+				getCountryBorder(countryCodeJSON);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				//error code
+			}
+		});
+	});
+
+	$('#resetLocation').click(function() {
+		myMap.flyTo([53.505, -1.5], 5);
+		//polygon.remove();
+	});
+
+	$('#findLocation').click(function() {
+		
+		const successCB = (position) => {
+			let currentLat = position.coords.latitude;
+			let currentLong = position.coords.longitude;
+
+			let currentLocationMarker = L.marker([currentLat, currentLong]);
+			currentLocationMarker.addTo(myMap);
+
+			console.log(currentLat + ", " + currentLong);
+		};
+
+		const errorCB = (error) => {
+			console.log(error);
+		};
+		
+		navigator.geolocation.getCurrentPosition(successCB, errorCB);
+		// myMap.locate({setView: true});
+		// myMap.on('locationfound', function(locationData) {
+		// 	let lat = locationData.latlng.lat;
+		// 	let lng = locationData.latlng.lng;
+		// 	let currentLocationMarker = L.marker([lat, lng]).addTo(myMap);
+		// 	//console.log(currentLocationMarker.getLatLng())
+		// });
+	});
+
+	myMap.on('click', function(ev) {
+		console.log(`Lat: ${ev.latlng.lat} Long: ${ev.latlng.lng}`); // ev is an event object (MouseEvent in this case)
+	});
+
+
 });
 	

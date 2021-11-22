@@ -6,7 +6,8 @@ Plan
 3. Get country ISO code device is in.											(DONE)
 4. Use ISO code to get border lat/lng co-ords from JSON file.					(DONE)
 6. Determine how many polygon arrays are in the country JSON.					(DONE)
-7. Loadcorrect polygon based on initial location on loading.					(DONE)
+7. Load correct polygon based on initial location on loading.					(DONE)
+8. Clear previous polygon when a new one is loaded.								(NOT DONE)
 
 x. Prevent the drop-down box from appearing until after something is typed in.	(NOT DONE)
 x. Change the direction of the drop-down box.									(NOT DONE)
