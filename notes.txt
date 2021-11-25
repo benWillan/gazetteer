@@ -29,6 +29,7 @@ Questions
 - Where did the countryBorders.geo.json data come from?
 - Why does index.html default as the file be run.
 - Why does a php file still output when the header() is not included/ commented out?
+- Should the ajax requests return anything?
 
 geo.json
 ========
