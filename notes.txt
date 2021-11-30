@@ -1,17 +1,7 @@
 Plan
 ====
 
-1. Create an array of all the country names in countryBorders.geo.json.			(DONE)
-2. Create an <input> and and <datalist> which display all the countries.		(DONE)
-3. Get country ISO code device is in.											(DONE)
-4. Use ISO code to get border lat/lng co-ords from JSON file.					(DONE)
-6. Determine how many polygon arrays are in the country JSON.					(DONE)
-7. Load correct polygon based on initial location on loading.					(DONE)
-8. Clear previous polygon when a new one is loaded.								(NOT DONE)
-
-x. Prevent the drop-down box from appearing until after something is typed in.	(NOT DONE)
-x. Change the direction of the drop-down box.									(NOT DONE)
-x. Change the number of options displayed in the drop-down box.					(NOT DONE)
+1. 
 
 Program Flow
 ============
@@ -31,11 +21,22 @@ Questions
 - Why does a php file still output when the header() is not included/ commented out?
 - Should the ajax requests return anything?
 
-geo.json
+Workings
 ========
 
-//countryJSON['geometry']['coordinates'] 				- the total nested arrays [ [ [...]]].
-//countryJSON['geometry']['coordinates'][0] 			- the array containing the array of first set of arrays of lat/lng array pairs.
-//countryJSON['geometry']['coordinates'][0][0] 			- the first of the nested arrays. containing the first set of array lat/lng pairs.
-//countryJSON['geometry']['coordinates'][0][0][0] 		- the first array of lat/lng pairs.
-//countryJSON['geometry']['coordinates'][0][0][0][0] 	- the first lat/lng value in the array.
+$featuresArr = [
+	[Bahamas, BA],
+	[China, CN],
+	[United Kingdom, UK],
+	[Zimbabwe, ZW]
+];
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Mapdex</title>
+    <title>Gazetteer</title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,22 +14,23 @@
       
   </head>
   <body>
-    
-    <!--
-    -->
-      <div id="map"></div>
-    <!-- MOBILE
-      <div id="map" style="height: 450px; width: 300px"></div>
-    -->
-    
     <br>
     
     <div id="countryEntry">
-      <label for="countriesInput">Countries</label>
-      <input type="text" id="countriesInput" list="countriesDL">
-      <datalist id="countriesDL"></datalist>
+      <label for="countriesInput">Countries:</label>
+      <select id="countryInput"></select>
+      
+      <label id="currentCountryLabel">You are in:</label>
+      <p id="currentCountry"></p>
     </div>
     
+    
+    <div id="map"></div>
+    
+    <!-- MOBILE
+      <div id="map" style="height: 450px; width: 300px"></div>
+    -->
+	   
     <div class="buttons">
       <button id="resetLocation">Return to Home</button>
       <button id="findLocation">Find Location</button>
@@ -38,6 +39,7 @@
     <script src="./js/jquery3.6.0.js"></script>
     <script src="./js/leaflet.js"></script>
     <script src="./js/script.js"></script>
+	
     <!--
       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="" defer></script>
     -->

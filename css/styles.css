@@ -8,6 +8,13 @@
 	height: auto;
 	*/
 }
+#currentCountryLabel {
+	display: inline;
+	margin-left: 100px;
+}
+#currentCountry {
+	display: inline;
+}
 #countryEntry {
 	position: static;
 	width: 300px;
@@ -25,7 +32,7 @@ div.buttons {
 	width: 240px;
 	height: 40px;
 
-	left: 460px;
+	left: 760px;
 	bottom: 20px;
 
 	margin: 0px;
