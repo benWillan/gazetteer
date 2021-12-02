@@ -24,12 +24,6 @@ Questions
 Workings
 ========
 
-$featuresArr = [
-	[Bahamas, BA],
-	[China, CN],
-	[United Kingdom, UK],
-	[Zimbabwe, ZW]
-];
 
 
 

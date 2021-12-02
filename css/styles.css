@@ -1,40 +1,46 @@
 #map {
-	/*
-	*/
 	height: 625px;
 	width: 1036px;
-	/*
-	width: auto;
-	height: auto;
-	*/
 }
-#currentCountryLabel {
+
+p {
 	display: inline;
-	margin-left: 100px;
+	font-weight: bold;
 }
-#currentCountry {
+
+.content-left {
 	display: inline;
+	border: 2px solid black;
 }
-#countryEntry {
-	position: static;
-	width: 300px;
+.content-middle {
 	display: inline;
+	border: 2px solid black;
+	text-align: center;
 }
-label {
-	font-family: 'Courier New', Courier, monospace;
+.content-right {
+	display: inline;
+	border: 2px solid black;
 }
-#resetLocation {
-	margin: 10px;
-}
-div.buttons {
+.infoButton {
 	position: relative;
-	display: block;
-	width: 240px;
-	height: 40px;
+	left: -10px;
+	bottom: 5px;
 
-	left: 760px;
-	bottom: 20px;
-
-	margin: 0px;
-	background-color: maroon;
+	width: 38px;
+	height: 38px;
+	animation-name: infoButton;
+	position: relative;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+  }
+  
+  @keyframes infoButton {
+	0%   {background-color:crimson;}
+	50% {background-color:white;}
+	100% {background-color:crimson;}
+}
+#sidebarData td {
+	padding: 5px;
+	border: 2px solid black;
+	border-collapse: collapse;
 }

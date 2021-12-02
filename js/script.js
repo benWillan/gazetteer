@@ -1,5 +1,5 @@
 // Global Variables //
-var myMap = L.map('map', {
+var map = L.map('map', {
 	zoomSnap: 0.5,
 	zoomDelta: 0.1
 });
@@ -12,18 +12,25 @@ var defaultLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrai
 	ext: 'png'
 });
 
-var previousBorder;
-var newBorder;
+var border;
+var initialCountryIso;
+var infoEasyButton;
+var sidebar;
+//var cntrlSidebar;
+
+L.control.scale().addTo(map);
+
+
 // Global Variables //
 
-//Add countries to datalist.
+//Add countries to select.
 function populateCoutrySelect(countriesArr) {
 	countriesArr['countries'].forEach(country => {
 		$('#countryInput').append(
 			`
 			<option value=${country['iso']}>${country['name']}</option>
 			`
-		)
+		);
 	});
 }
 
@@ -84,32 +91,33 @@ function highlightNewBorder(result) {
 
 	let selectedCountryIso = $('#countryInput').val();
 
+	//search for the country in the feature collection who's ISO matches the ISO of the country selected.
 	countryFeature = result['countries']['features'].find(feature => {
 		if (feature['properties']['iso_a2'] == selectedCountryIso) {
 			return feature;
 		}
 	});
 
-	if (previousBorder != true) {
+	if (border == undefined) {
 		
-		newBorder = L.geoJSON(countryFeature, {style: function (geoJsonFeature) {
-			return {color: 'maroon', fillOpacity: 0.15}
+		//assign border object and style of the selected country to border.
+		border = L.geoJSON(countryFeature, {style: function () {
+			return {color: 'crimson', weight: 2, fillOpacity: 0.35, fillColor: 'white'}
 		}});
 
-		newBorder.addTo(myMap);
-		myMap.fitBounds(newBorder.getBounds());
+		border.addTo(map);
+		map.fitBounds(border.getBounds());
+		
+	} else if (border != undefined) {
+		
+		map.removeLayer(border);
 
-		previousBorder = true;
-
-	} else if (previousBorder == true) {
-		myMap.removeLayer(newBorder);
-
-		newBorder = L.geoJSON(countryFeature, {style: function (geoJsonFeature) {
-			return {color: 'maroon'}
+		border = L.geoJSON(countryFeature, {style: function () {
+			return {color: 'crimson', weight: 2, fillOpacity: 0.35, fillColor: 'white'}
 		}});
 		
-		newBorder.addTo(myMap);
-		myMap.fitBounds(newBorder.getBounds());
+		border.addTo(map);
+		map.fitBounds(border.getBounds());
 	}
 
 };
@@ -128,12 +136,52 @@ function getBorderData() {
 	});
 }
 
-$('#countryInput').on('change', function() {
-	getBorderData();
-});
+function getFlag() {
+	
+	let iso = $('#countryInput').val();
+	let countryName = $('#countryInput').html();
+	let flagWidth = 64;
+	let flagHeight = 48;
 
+	$('#countryFlag').attr({
+		src: `https://flagcdn.com/${flagWidth}x${flagHeight}/${iso.toLowerCase()}.png`,
+		srcset: `https://flagcdn.com/${flagWidth}x${flagHeight}/${iso.toLowerCase()}.png`,
+		alt: `${countryName}`
+	})
+}
+
+
+//initialisation.
 $(document).ready(function() {
-	defaultLayer.addTo(myMap);
+	defaultLayer.addTo(map);
 	addCountriesToSelect();
 	highlightCurrentCountry();
+	
+	infoEasyButton = L.easyButton({
+		states: [{
+				stateName: 'zoom-to-forest',        
+				icon:      '<img class="infoButton" src="icons/icons8-info-squared-38.png">',
+				title:     'Country Information',
+				onClick: function(btn, map) {
+					sidebar.toggle();
+				}
+			}]
+		});
+	
+	infoEasyButton.addTo(map);
+	
+	sidebar = L.control.sidebar('sidebar', {
+		position: 'left'
+	});
+	
+	map.addControl(sidebar);
+
+});
+
+$('#countryInput').on('change', function() {
+	getBorderData();
+	getFlag()
+	let marker = L.marker([51.5, -0.1]);
+	//sidebar.show();
+	
 });
