@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="./css/leaflet.css">
     <link rel="stylesheet" href="./css/easy-button.css">
     <link rel="stylesheet" href="./css/L.Control.Sidebar.css">
+		<link rel="stylesheet" href="./css/MarkerCluster.css">
+		<link rel="stylesheet" href="./css/MarkerCluster.Default.css">
+
     <!--Document CSS -->
     <link rel="stylesheet" href="css/styles.css">
        
@@ -33,7 +36,6 @@
       <!--left-->
       <label for="countriesInput">Select Country:</label>
       <select id="countryInput"></select>
-                
     </div>
     <div class="col-md-4 content-middle">
       <!--middle-->
@@ -47,29 +49,40 @@
     <div id="map"></div>
     
     </div>
-
     
     <div id="sidebar">
-      <img
-        id="countryFlag"
-        src=""
-        srcset=""
-        width=""
-        height=""
-        alt="">
-      </img>
 
-      <table id="sidebarData">
+      <div class="countryInfoHeader">
+		  <img
+		  id="countryFlag"
+		  src=""
+		  srcset=""
+		  width=""
+		  height=""
+		  alt="">
+		</img>
+		<h1 id="countryName"></h1>
+	  </div>
+
+      <table id="sidebarTable">
         <tr>
-          <td>Name</td>
-          <td>Age</td>
-          <td>Weight</td>
-          <td>Blood Type</td>
+          <th>Capital City:</th>
+          <td id="countryCapital"></td>
         </tr>
+		<tr>
+			<th>Population:</th>
+			<td id="countryPopulation"></td>
+		</tr>
+		<tr>
+			<th>Total Area:</th>
+			<td id="countryArea"></td>
+		</tr>
+		<tr>
+			<th>Currency Code:</th>
+			<td id="countryCurrencyCode"></td>
+		</tr>
       </table>
     </div>
-
-
 </div>
       
       <script src="./js/jquery3.6.0.js"></script>
@@ -82,10 +95,11 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-      <script src="./js/leaflet.js"></script>
-      <script src="./js/easy-button.js"></script>
-      <script src="./js/L.Control.Sidebar.js"></script>
-      <script src="./js/script.js"></script>
+      <script type="application/javascript" src="./js/leaflet.js"></script>
+      <script type="application/javascript" src="./js/easy-button.js"></script>
+      <script type="application/javascript" src="./js/L.Control.Sidebar.js"></script>
+	    <script type="application/javascript" src="./js/leaflet.markercluster.js"></script>
+      <script type="application/javascript" src="./js/script.js"></script>
       
       <!--
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="" defer></script>

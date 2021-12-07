@@ -1,7 +1,35 @@
 Plan
 ====
 
-1. 
+1. Fix Somaliland Flag get.					(NOT DONE)
+2. Add currency name as well as code.		(NOT DONE)
+3. Add exchange rates.						(NOT DONE)
+4. Add covid19 data.						(NOT DONE)
+
+5. Wikipedia links.							(DONE)
+5.1. Change icons based on type.			(NOT DONE)
+
+6. Earthquake history?						(NOT DONE)
+
+Workings
+========
+
+5. Wikipedia links.
+
+	- on country select.change() assign bounding box variables north, east etc the values returned from getCountryInfoGeoNames
+	- ajax call to wikipediaGeoNames
+	- on return assign relevant infomation to variables and add markers to map
+
+
+
+
+
+
+
+
+
+
+
 
 Program Flow
 ============
@@ -12,7 +40,6 @@ Program Flow
 - getCountryInfo makes a cURL request to geonames API that returns the JSON object for the long/lat co-ords.
 - Another AJAX request is then chained inside the first which requests the countryBorders arrays from the country with the same ISO2 code.
 
-
 Questions
 =========
 
@@ -20,17 +47,5 @@ Questions
 - Why does index.html default as the file be run.
 - Why does a php file still output when the header() is not included/ commented out?
 - Should the ajax requests return anything?
-
-Workings
-========
-
-
-
-
-
-
-
-
-
 
 
