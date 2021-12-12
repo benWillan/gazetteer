@@ -1,16 +1,43 @@
 // Global Variables //
-var map = L.map('map', {
-	zoomSnap: 0.5,
-	zoomDelta: 0.1
+var defaultBaseMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}),
+	airportMap = L.tileLayer('https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: 'Map <a href="https://memomaps.de/">memomaps.de</a> <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}),
+satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+}),
+darkMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 20
+}),
+topographicMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 });
 
-var defaultLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.{ext}', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	subdomains: 'abcd',
-	minZoom: 0,
-	maxZoom: 18,
-	ext: 'png'
+var baseMaps = {
+	"Default": defaultBaseMap,
+	"Topographic": topographicMap,
+	"Satellite": satelliteMap,
+	"Dark Mode": darkMap,
+	"Airport Locations" : airportMap
+};
+
+var map = L.map('map', {
+	zoomSnap: 0.5,
+	zoomDelta: 0.1,
+	layers: [defaultBaseMap]
 });
+
+L.control.layers(baseMaps).addTo(map);
+
+var startingCountryName;
+var startingCountryIso;
 
 var border;
 var initialCountryIso;
@@ -23,7 +50,7 @@ var boundingBoxWest;
 
 var countryMarkers = L.markerClusterGroup();
 
-	/*Icons*/
+/*Icons*/
 var landmarkIcon = L.icon({
     iconUrl: 'icons/icons8-obelisk-30.png',
     iconSize: [26, 62],
@@ -72,14 +99,15 @@ function ajaxErrorFunction(jqXHR, textStatus, errorThrown) {
 	console.log(errorThrown);
 }
 
-
-// Global Variables //
+// Global Variables End//
 
 //Add countries to select.
 function populateCoutrySelect(countriesArr) {
 	countriesArr['countries'].forEach(country => {
-		$('#countryInput').append(`
-			<option value=${country['iso']}>${country['name']}</option>`
+		$('#countryInput').append(
+			`
+			<option value=${country['iso']}>${country['name']}</option>
+			`
 		);
 	});
 }
@@ -96,14 +124,14 @@ function addCountriesToSelect() {
 
 //Highlight current country.
 function setCountry(output) {
-	let currentCountryName = output['currentCountryData']['countryName'];
-	let currentCountryIso = output['currentCountryData']['countryCode'];
+	startingCountryName = output['currentCountryData']['countryName'];
+	startingCountryIso = output['currentCountryData']['countryCode'];
 
 	//set current country indicator.
-	$('#currentCountry').html(`${currentCountryName}`);
+	$('#currentCountry').html(`${startingCountryName}`);
 
 	//set input box to current country and update map.
-	$('#countryInput').val(`${currentCountryIso}`).change();
+	$('#countryInput').val(`${startingCountryIso}`).change();
 }
 
 function errorCallback(errorMsg) {
@@ -237,7 +265,7 @@ function addPointsOfInterestToMap(result) {
 	let pointsOfInterestArray = (result['data']['geonames']);
 	//console.log(pointsOfInterestArray);
 	
-	//remove previous icons if added from previous country selections.
+	//remove previous marker layer if added from previous country selections.
 	if (map.hasLayer(countryMarkers)) {
 		countryMarkers.clearLayers();
 	}
@@ -247,49 +275,53 @@ function addPointsOfInterestToMap(result) {
 		// console.log(pointsOfInterestArray[i]);
 		// console.log(pointsOfInterestArray[i]['feature']);
 		// console.log(pointsOfInterestArray[i]['title']);
+		let feature;
 
 		switch (pointsOfInterestArray[i]['feature']) {
 			
 			case 'landmark':
-				let landmarkMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: landmarkIcon})
+				let landmarkMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: landmarkIcon});
+				
+				
 				landmarkMarker.bindPopup(`
-					<h2 style="text-align: center"><a href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
+					<h2 style="text-align: center"><a target="_blank" href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
+					<h4>${pointsOfInterestArray[i]['feature'].charAt(0).toUpperCase() + pointsOfInterestArray[i]['feature'].slice(1)}</h4>
 					<p>${pointsOfInterestArray[i]['summary']}</p>
 				`).openPopup();
 				countryMarkers.addLayer(landmarkMarker);
 			break;
 
 			case 'city':
-				let cityMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: cityIcon})
+				let cityMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: cityIcon});
 				cityMarker.bindPopup(`
-					<h2 style="text-align: center"><a href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
+					<h2 style="text-align: center"><a target="_blank" href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
 					<p>${pointsOfInterestArray[i]['summary']}</p>
 				`).openPopup();
 				countryMarkers.addLayer(cityMarker);
 			break;
 
 			case 'edu':
-				let eduMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: educationIcon})
+				let eduMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: educationIcon});
 				eduMarker.bindPopup(`
-					<h2 style="text-align: center"><a href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
+					<h2 style="text-align: center"><a target="_blank" href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
 					<p>${pointsOfInterestArray[i]['summary']}</p>
 				`).openPopup();
 				countryMarkers.addLayer(eduMarker);
 			break;
 
 			case 'airport':
-				let airportMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: airportIcon})
+				let airportMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: airportIcon});
 				airportMarker.bindPopup(`
-					<h2 style="text-align: center"><a href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
+					<h2 style="text-align: center"><a target="_blank" href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
 					<p>${pointsOfInterestArray[i]['summary']}</p>
 				`).openPopup();
 				countryMarkers.addLayer(airportMarker);
 			break;
 			
 			default:
-				let pointOfInterestMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: pointOfInterestIcon})
+				let pointOfInterestMarker = L.marker([pointsOfInterestArray[i]['lat'], pointsOfInterestArray[i]['lng']], {icon: pointOfInterestIcon});
 				pointOfInterestMarker.bindPopup(`
-					<h2 style="text-align: center"><a href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
+					<h2 style="text-align: center"><a target="_blank" href="https://${pointsOfInterestArray[i]['wikipediaUrl']}">${pointsOfInterestArray[i]['title']}</a></h2>
 					<p>${pointsOfInterestArray[i]['summary']}</p>
 				`).openPopup();
 				countryMarkers.addLayer(pointOfInterestMarker);
@@ -340,7 +372,6 @@ function getWikiLinks() {
 ////////////////////////////////////	initialisation.
 $(document).ready(function() {
 	
-	defaultLayer.addTo(map);
 	addCountriesToSelect();
 	highlightCurrentCountry();
 	
@@ -414,4 +445,7 @@ $('#countryInput').on('change', function() {
 	
 });
 
+$('#resetLocation').on('click', function() {
+	$('#countryInput').val(`${startingCountryIso}`).change();
+});
 

@@ -1,89 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Gazetteer</title>
+<head>
+  <title>Gazetteer</title>
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      
-    <!--Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> <!-- This link is required by L.easyButton-->
-    <!--Leaftlet CSS -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="./css/leaflet.css">
-    <link rel="stylesheet" href="./css/easy-button.css">
-    <link rel="stylesheet" href="./css/L.Control.Sidebar.css">
-		<link rel="stylesheet" href="./css/MarkerCluster.css">
-		<link rel="stylesheet" href="./css/MarkerCluster.Default.css">
-
-    <!--Document CSS -->
-    <link rel="stylesheet" href="css/styles.css">
-       
-    
-  </head>
-  <body>
-
-
-    
-  <div class="container-fluid">
-
-  <br>
+  <!--Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> <!-- This link is required by L.easyButton-->
+  <!--Leaftlet CSS -->
   
-  <div class="row">
-    <div class="col-md-4 content-left">
-      <!--left-->
-      <label for="countriesInput">Select Country:</label>
-      <select id="countryInput"></select>
+  <link rel="stylesheet" href="./css/leaflet.css">
+  <link rel="stylesheet" href="./css/easy-button.css">
+  <link rel="stylesheet" href="./css/L.Control.Sidebar.css">
+  <link rel="stylesheet" href="./css/MarkerCluster.css">
+  <link rel="stylesheet" href="./css/MarkerCluster.Default.css">
+
+  <!--Document CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+      
+  
+</head>
+<body>
+
+  <nav class="navbar-inverse">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4">
+          <ul id="currentLocation" class="list-inline navbar-text navbar-left">
+            <li><label for="currentCountry" id="currentCountryLabel">Your current location:</label></li>
+            <li><p class="text-success" id="currentCountry"></p></li>
+            <li><button id="resetLocation" type="button" class="btn btn-primary active">Locate</button></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 text-center text-primary text-uppercase">
+          <h2 id="appName">Gazetteer</h2>
+        </div>
+        <div class="col-lg-4">
+          <ul class="list-inline navbar-text navbar-right">
+            <li><label for="countriesInput">Currently Selected Country:</label></li>
+            <li>
+              <select id="countryInput"></select>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 content-middle">
-      <!--middle-->
-      GAZETTEER
+  </nav>
+
+
+  <div id="map"></div>
+
+
+  <!--
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4 content-left">
+        
+        <label for="countriesInput">Select Country:</label>
+        <select id="countryInput"></select>
+      </div>
+      <div class="col-md-4 content-middle">
+        
+        GAZETTEER
+      </div>
+      <div class="col-md-4 content-right">
+        
+        <label for="currentCountry" id="currentCountryLabel">Your current location:</label>
+        <p id="currentCountry"></p>
+      </div>
     </div>
-    <div class="col-md-4 content-right">
-      <!--right-->
-      <label for="currentCountry" id="currentCountryLabel">Your current location:</label>
-      <p id="currentCountry"></p>
-    </div>
-    <div id="map"></div>
+  </div>
+
+  <div id="map"></div>
+
+  -->
     
-    </div>
     
     <div id="sidebar">
 
       <div class="countryInfoHeader">
-		  <img
-		  id="countryFlag"
-		  src=""
-		  srcset=""
-		  width=""
-		  height=""
-		  alt="">
-		</img>
-		<h1 id="countryName"></h1>
-	  </div>
+      <img
+      id="countryFlag"
+      src=""
+      srcset=""
+      width=""
+      height=""
+      alt="">
+    </img>
+    <h1 id="countryName"></h1>
+    </div>
 
       <table id="sidebarTable">
         <tr>
           <th>Capital City:</th>
           <td id="countryCapital"></td>
         </tr>
-		<tr>
-			<th>Population:</th>
-			<td id="countryPopulation"></td>
-		</tr>
-		<tr>
-			<th>Total Area:</th>
-			<td id="countryArea"></td>
-		</tr>
-		<tr>
-			<th>Currency Code:</th>
-			<td id="countryCurrencyCode"></td>
-		</tr>
+    <tr>
+      <th>Population:</th>
+      <td id="countryPopulation"></td>
+    </tr>
+    <tr>
+      <th>Total Area:</th>
+      <td id="countryArea"></td>
+    </tr>
+    <tr>
+      <th>Currency Code:</th>
+      <td id="countryCurrencyCode"></td>
+    </tr>
       </table>
     </div>
-</div>
+  </div>
       
       <script src="./js/jquery3.6.0.js"></script>
 
@@ -98,12 +128,12 @@
       <script type="application/javascript" src="./js/leaflet.js"></script>
       <script type="application/javascript" src="./js/easy-button.js"></script>
       <script type="application/javascript" src="./js/L.Control.Sidebar.js"></script>
-	    <script type="application/javascript" src="./js/leaflet.markercluster.js"></script>
+      <script type="application/javascript" src="./js/leaflet.markercluster.js"></script>
       <script type="application/javascript" src="./js/script.js"></script>
       
       <!--
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="" defer></script>
       -->
-      
-  </body>
+    
+</body>
 </html>
