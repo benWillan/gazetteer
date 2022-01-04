@@ -1,35 +1,29 @@
 Plan
 ====
 
-1. Fix Somaliland Flag get.					(NOT DONE)
-2. Add currency name as well as code.		(NOT DONE)
-3. Add exchange rates.						(NOT DONE)
-4. Add covid19 data.						(NOT DONE)
-
-5. Wikipedia links.							(DONE)
-5.1. Change icons based on type.			(NOT DONE)
-
-6. Earthquake history?						(NOT DONE)
+- Favicon														(DONE)
+- change intro modal											(DONE)
+- look at blue host https://									(DONE)
+- make select box look less legacy.								(DONE)
+- get rid of locate button										(DONE)
+- use extraMarker												(DONE)
+- get rid of icons on the city									(DONE)
+- get rid of the nav bar										(DONE)
+- Get rid of nav bar											(DONE)
+- upgrade bootstrap 5											(DONE)
+- make sure sidebars are mutually exclusive.					(DONE)
+- do not use CDNs												(DONE)
+- prevent zoom from exceeding 2.								(DONE)
+- remove prevent scroll limiting.								(DONE)
+- remove underlining from icon links							(DONE)
+- fix weather icons and implement with extraMarkers				(DONE)
+- comments which can be indented and then hidden with arrow.	(DONE)
+- make all markers returned have the same iso.					(This would mean using different API)
+- do not use white/black backgrounds on weather station report	(Idea changed to windspeed)
+- getCountryNamesAndIso use a foreach loop.						
 
 Workings
 ========
-
-5. Wikipedia links.
-
-	- on country select.change() assign bounding box variables north, east etc the values returned from getCountryInfoGeoNames
-	- ajax call to wikipediaGeoNames
-	- on return assign relevant infomation to variables and add markers to map
-
-
-
-
-
-
-
-
-
-
-
 
 Program Flow
 ============

@@ -1,18 +1,18 @@
+html, body {
+	height: 100%;
+}
 #map {
-	/*
-	height: 850px;
-	*/
-	height: 600px;
+	width: 100%;
+	height: 100%;
+}
+#countryInput {
+	position: absolute;
+	z-index: 1000;
+	
 	width: auto;
-}
-#appName {
-	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-	font-size: 42px;
-	letter-spacing: 5px;
-}
-p {
-	display: inline;
-	font-weight: bold;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
 }
 .content-left {
 	display: inline;
@@ -39,11 +39,11 @@ p {
 }
 .covidButton {
 	position: relative;
-	left: -5px;
-	bottom: 2px;
-
+	
 	width: 28px;
 	height: 28px;
+	left: -5px;
+	bottom: 2px;
 }
 .earthquakeButton {
 	position: relative;
@@ -55,20 +55,151 @@ p {
 }
 /* easyButton styling */
 
-/*sidebar.*/
-.countryInfoHeader .countryName {
-	font-size: 22px;
+/*Country Info Sidebar*/
+#countryName {
+	font-size: 2.5em;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	font-variant: small-caps;
+	margin: 5% auto;
+}
+#countryFlag {
+	width: 50%;
+	max-height: 100px;
+	border: solid black 1px;
+}
+#countryInfoSidebarContent {
+	margin-top: 2.5em;
+}
+.sidebar .countryName {
+	font-size: 2em;
 }
 
-#sidebarTable {
+.tdLabel {
+	font-size: 0.9em;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: middle;
+}
+.sidebar .sidebarBody .tdInfo {
+	font-size: 0.95em;
+	list-style-type: none;
+}
+.sidebar .sidebarBody .tdInfo .listData {
+	font-size: 0.95em;
+	list-style-type: none;
+	padding-left: 0px;
+}
+#coatOfArmsImg {
 	position: relative;
-	margin-top: 3em;
+	height: 100px;
+	width: 100px;
 }
-#sidebarTable th {
-	font-size: 1.3em;
-	text-align: right;
+
+/*   Currency Calculator   */
+
+#currencySidebar {
+	padding: 0px;
 }
-#sidebarTable td {
-	padding-left: 1.05em;
-	font-size: 1.3em;
+#currencySidebar h1 {
+	text-align: center;
+	font-size: 1.6em;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	margin: 10% 0% 10%;
+}
+.form-control {
+	text-align: center;
+}
+#buttonAndResultContainer {
+	margin-top: 2em;
+}
+#conversionResultContainer {
+	position: relative;
+	height: auto;
+	border: 1px solid lightgray;
+	border-radius: 0.25em;
+	background-color: #FFFFFF;
+	margin-top: 1.4em;
+
+	
+	font-size: 1.6em;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	text-align: center;
+}
+
+/*   Covid19 Modal   */
+
+#covidModalHeader {
+	background-color: rgb(43, 124, 43);
+	color: bisque;
+	text-align: center;
+}
+#covidTableTitle{
+	text-align: center;
+}
+#covidTableData {
+	padding: 1.3em;
+}
+
+/*   Earthquake Modal   */
+
+#earthquakeTable th, td {
+	text-align: center;
+	padding: 0.5em;
+}
+#earthquakeModalHeader {
+	background-color: rgb(136, 23, 23);
+}
+#earthquakeTable tr:nth-child(even) {
+    background-color: rgb(230, 230, 230);
+}
+
+/*   Preloader   */
+
+#preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	overflow: hidden;
+	background: #fff;
+}
+
+#preloader:before {
+	content: "";
+	position: fixed;
+	top: calc(50% - 30px);
+	left: calc(50% - 30px);
+	border: 6px solid #f2f2f2;
+	border-top: 6px solid #56829e ;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	-webkit-animation: animate-preloader 1s linear infinite;
+	animation: animate-preloader 1s linear infinite;
+}
+
+@-webkit-keyframes animate-preloader {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes animate-preloader {
+	0% {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
 }

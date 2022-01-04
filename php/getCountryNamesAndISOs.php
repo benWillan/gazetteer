@@ -15,6 +15,12 @@
 		$countriesArr[$i]['iso'] = $geoJsonArr['features'][$i]['properties']['iso_a2'];
 	}
 
+	// foreach($countriesReturned['geonames'] as $country) {
+	// 	if ($country['countryCode'] == $iso) {
+	// 		$countryReturned = $country;
+	// 	}
+	// }
+
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";

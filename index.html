@@ -1,139 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <title>Gazetteer</title>
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-  <!--Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> <!-- This link is required by L.easyButton-->
-  <!--Leaftlet CSS -->
   
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="./css/bootstrap.css.map">
+  
+  <!--This link is required by L.easyButton 
+    
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  -->
+  
+  <!--Leaftlet CSS-->
   <link rel="stylesheet" href="./css/leaflet.css">
   <link rel="stylesheet" href="./css/easy-button.css">
   <link rel="stylesheet" href="./css/L.Control.Sidebar.css">
   <link rel="stylesheet" href="./css/MarkerCluster.css">
   <link rel="stylesheet" href="./css/MarkerCluster.Default.css">
+  
+  <!-- Font Awesome CSS 
+	<link rel="stylesheet" href="../fontAwesome/css/all.min.css">
+-->
+<link rel="stylesheet" href="./css/leaflet.extra-markers.min.css">
 
-  <!--Document CSS -->
+  <!--Document CSS-->
   <link rel="stylesheet" href="css/styles.css">
-      
   
 </head>
 <body>
-
-  <nav class="navbar-inverse">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-4">
-          <ul id="currentLocation" class="list-inline navbar-text navbar-left">
-            <li><label for="currentCountry" id="currentCountryLabel">Your current location:</label></li>
-            <li><p class="text-success" id="currentCountry"></p></li>
-            <li><button id="resetLocation" type="button" class="btn btn-primary active">Locate</button></li>
-          </ul>
-        </div>
-        <div class="col-lg-4 text-center text-primary text-uppercase">
-          <h2 id="appName">Gazetteer</h2>
-        </div>
-        <div class="col-lg-4">
-          <ul class="list-inline navbar-text navbar-right">
-            <li><label for="countriesInput">Currently Selected Country:</label></li>
-            <li>
-              <select id="countryInput"></select>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-
-  <div id="map"></div>
-
-
-  <!--
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-4 content-left">
-        
-        <label for="countriesInput">Select Country:</label>
-        <select id="countryInput"></select>
-      </div>
-      <div class="col-md-4 content-middle">
-        
-        GAZETTEER
-      </div>
-      <div class="col-md-4 content-right">
-        
-        <label for="currentCountry" id="currentCountryLabel">Your current location:</label>
-        <p id="currentCountry"></p>
-      </div>
-    </div>
-  </div>
-
-  <div id="map"></div>
-
-  -->
+  
+<!-- Country Dropdown Box -->
+<select class="form-select" id="countryInput"></select>
     
-    
-    <div id="sidebar">
+<!-- Leaflet Map div -->
+<div id="map"></div>
+  
+<!-- Country Info Sidebar -->
+<div class="sidebar" id="countryInfoSidebar">
+  
+  <div id="countryInfoSidebarContent">
+  
+	<img
+		id="countryFlag"
+		src=""
+		srcset=""
+		width=""
+		height=""
+		alt="Country Flag">
+	</img>
 
-      <div class="countryInfoHeader">
-      <img
-      id="countryFlag"
-      src=""
-      srcset=""
-      width=""
-      height=""
-      alt="">
-    </img>
-    <h1 id="countryName"></h1>
-    </div>
-
-      <table id="sidebarTable">
-        <tr>
-          <th>Capital City:</th>
-          <td id="countryCapital"></td>
-        </tr>
-    <tr>
-      <th>Population:</th>
-      <td id="countryPopulation"></td>
-    </tr>
-    <tr>
-      <th>Total Area:</th>
-      <td id="countryArea"></td>
-    </tr>
-    <tr>
-      <th>Currency Code:</th>
-      <td id="countryCurrencyCode"></td>
-    </tr>
+    <h1 id="countryName" class="countryName"></h1>
+  
+    <div class="sidebarBody">
+      <table id="countrySidebarTable" class="table table-hover">
+        <tbody>
+          <tr>
+            <td class="tdLabel">Official Name</td>
+            <td id="altSpellingsList" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Capital City</td>
+            <td id="capitalCity" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Country Code</td>
+            <td id="iso2" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Population</td>
+            <td id="population" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Region</td>
+            <td id="region" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Subregion</td>
+            <td id="subregion" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Area</td>
+            <td id="area" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Currency</td>
+            <td id="currency" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Drives on</td>
+            <td id="drivingSide" class="tdInfo"></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Languages Spoken</td>
+            <td id="languages" class="tdInfo"><ul id="languageList" class="listData"></ul></td>
+          </tr>
+          <tr>
+            <td class="tdLabel">Countries Bordered</td>
+            <td id="countriesBordered" class="tdInfo"><ul id="countriesBorderedList" class="listData"></ul></td>
+          </tr>
+          <tr> 
+            <td class="tdLabel">Coat of Arms</td>
+            <td id="coatOfArms" class="tdInfo"><img id="coatOfArmsImg" src="" alt="Image Not Available"></td>
+          </tr>
+        </tbody>
       </table>
     </div>
+
   </div>
-      
-      <script src="./js/jquery3.6.0.js"></script>
+</div>
 
-      <!--Maybe not needed
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-      -->
-        
-
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-      <script type="application/javascript" src="./js/leaflet.js"></script>
-      <script type="application/javascript" src="./js/easy-button.js"></script>
-      <script type="application/javascript" src="./js/L.Control.Sidebar.js"></script>
-      <script type="application/javascript" src="./js/leaflet.markercluster.js"></script>
-      <script type="application/javascript" src="./js/script.js"></script>
-      
-      <!--
-        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="" defer></script>
-      -->
+<div id="currencySidebar">
+  <div class="container-fluid">
     
+    <h1 id="currencyTitle">Currency Calculator</h1>
+    
+    <!-- From -->
+    <div class="form-floating mb-3">
+      <select id="fromCurrencyNames" class="form-control" placeholder="From"></select>
+      <label for="floatingInput">From</label>
+    </div>
+    
+    <!-- Amount -->
+    <div class="form-floating mt-3 mb-3">
+      <input type="number" class="form-control" id="fromCurrencyAmount" name="amount">
+      <label for="amount">Amount</label>
+    </div>
+    
+    <!-- To -->
+    <div class="form-floating mb-3 mt-3">
+      <select name="toCurrency" id="toCurrencyNames" class="form-control"></select>
+      <label for="fromCurrency">To</label>
+    </div>
+    
+    <!-- Button -->
+    <div id="buttonAndResultContainer">
+      
+      <div id="convertCurrencyBtn" class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-danger">Convert</button>
+      </div>
+      
+      <!-- Result Area -->
+      <div id="conversionResultContainer">
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+
+<!-- Covid Modal -->
+  
+<div class="modal fade" id="covidModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <!-- Modal Header -->
+        <div id="covidModalHeader" class="modal-header">
+          <h4 id="covidTableTitle"></h4>
+          <button id="covidModalCloseButton" type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+      <!-- Modal body -->
+      <div id="covidTableData">
+        <table class="table table-striped">
+          <tr>
+            <th class="covidTableStatType">Confirmed Cases</th>
+            <td id="confirmedCases" class="covidTableStatValue"></td>
+          </tr>
+          <tr>
+            <th class="covidTableStatType">Active Cases</th>
+            <td id="activeCases" class="covidTableStatValue"></td>
+          </tr>
+          <tr>
+            <th class="covidTableStatType">Deaths</th>
+            <td id="totalCovidDeaths" class="covidTableStatValue"></td>
+          </tr>
+          <tr>
+            <th class="covidTableStatType">Deaths reported today</th>
+            <td id="dailyDeaths" class="covidTableStatValue"></td>
+          </tr>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+</div>
+  
+
+<!-- Earthquake Data Modal 
+
+-->
+<div class="modal fade" id="earthquakeModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      
+      <!-- Modal Header -->
+        <div id="earthquakeModalHeader" class="modal-header">
+          <h4 id="earthquakeTableTitle"></h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+      <!-- Modal body -->
+      <div id="earthquakeTableContainer">
+        <table id="earthquakeTable" class="table table-striped">
+			<tbody>
+				<tr id="earthquakeTableHeader"></tr>
+			</tbody>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="preloader"></div>
+
+<script type="application/javascript" src="./js/jquery3.6.0.js"></script>
+
+<!--Preloader-->
+<script type="application/javascript" src="./js/preloader.js"></script>
+<!--Preloader-->
+
+<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="application/javascript" src="./js/bootstrap.js"></script>
+<script type="application/javascript" src="./js/bootstrap.js.map"></script>
+
+<script type="application/javascript" src="./js/leaflet.js"></script>
+<!--
+	<script type="application/javascript" src="../fontAwesome/js/all.min.js"></script>
+-->
+<script type="application/javascript" src="https://kit.fontawesome.com/aefd5cb992.js" crossorigin="anonymous"></script>
+<script type="application/javascript" src="./js/easy-button.js"></script>
+<script type="application/javascript" src="./js/L.Control.Sidebar.js"></script>
+
+<script type="application/javascript" src="./js/leaflet.markercluster.js"></script>
+<script type="application/javascript" src="./js/leaflet.extra-markers.min.js"></script>
+
+<script type="application/javascript" src="./js/money.js"></script>
+<script type="application/javascript" src="./js/script.js"></script>
+
 </body>
 </html>
