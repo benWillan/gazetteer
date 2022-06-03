@@ -132,7 +132,7 @@ html, body {
 
 #covidModalHeader {
 	background-color: rgb(43, 124, 43);
-	color: bisque;
+	color: rgb(240, 185, 118);
 	text-align: center;
 }
 #covidTableTitle{
@@ -157,7 +157,7 @@ html, body {
 
 /*   Preloader   */
 
-#preloader {
+/* #preloader {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -202,4 +202,4 @@ html, body {
 		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
-}
+} */

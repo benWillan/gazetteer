@@ -21,6 +21,8 @@ Plan
 - make all markers returned have the same iso.					(This would mean using different API)
 - do not use white/black backgrounds on weather station report	(Idea changed to windspeed)
 - getCountryNamesAndIso use a foreach loop.						
+- bootstrap ':' error.
+- FA CDN?
 
 Workings
 ========

@@ -162,14 +162,17 @@ function addCurrencyNamesToSidebar() {
 		success: function assignCurrencies(result) {
 
 			let currencyCodeNamePairs = result['data'];
-			
-			for (const [currencyCode, currencyName] of Object.entries(currencyCodeNamePairs)) {
-				
-				//console.log(`${key}: ${value}`);
-				$('#fromCurrencyNames').append(`<option value="${currencyCode}">${currencyName} (${currencyCode})</option>`);
-				$('#toCurrencyNames').append(`<option value="${currencyCode}">${currencyName} (${currencyCode})</option>`);
 
-			}
+			console.log(currencyCodeNamePairs);
+			
+			// for (const [currencyCode, currencyName] of Object.entries(currencyCodeNamePairs)) {
+				
+			// 	//console.log(`${key}: ${value}`);
+			// 	$('#fromCurrencyNames').append(`<option value="${currencyCode}">${currencyName} (${currencyCode})</option>`);
+			// 	$('#toCurrencyNames').append(`<option value="${currencyCode}">${currencyName} (${currencyCode})</option>`);
+
+			// }
+			
 		},
 		error: function ajaxErrorFunction(jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
@@ -208,10 +211,12 @@ currencyEasyButton = L.easyButton({
 					success: function assignCurrencyRates(result) {
 						
 						//currencyRates = result['data']['rates'];
+						console.log(result['data']);
+
 						fx.base = "USD";
 						fx.rates = result['data']['rates'];
 
-						addCurrencyNamesToSidebar();
+						// addCurrencyNamesToSidebar();
 
 					},
 					error: function ajaxErrorFunction(jqXHR, textStatus, errorThrown) {
