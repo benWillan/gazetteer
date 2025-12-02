@@ -1,6 +1,6 @@
 ## **What is it?**
 
-An interactive mapping application providing country profiling, realtime weather data, and real-time currency exchange rates.
+An interactive mapping application providing country profiling, real-time weather data currency exchange rates.
 
 ## **Current features**
 - An interactive worldwide map provided by Leaftlet and OpenStreetMap with 18 zoomlayers with different map style layers.
