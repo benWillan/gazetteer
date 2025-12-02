@@ -1,10 +1,10 @@
 ## **What is it?**
 
-An interactive world map application providing country profiling, real-time weather data and currency exchange rates.
+An interactive world map application providing country profiling for globetrotters.
 
 ## **Current features**
 - 18 zoomlayers with different map style layers.
-- Real time currency conversion tool
+- Real-time weather data and currency exchange rates.
 - Detect and profile countries with a single-click
 
 ## **Tech-stack**
